@@ -12,7 +12,7 @@ class EmailController extends Controller
     	$user['to'] ='jeet044@gmail.com';
         Mail::send('email',$data, function($messages) use ($user){
        	$messages->to($user['to']);
-       	$messages->subject('Hello Worlds');
+       	$messages->subject('Hello Worlds'); 
        });	
 
         //return view('email');
