@@ -1,0 +1,89 @@
+@extends('admin/layout')
+@section('page_title','Add Poll Hash Tag')
+@section('pollhashtag-selected','link-nav active')
+@section('container')
+ 
+<div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+
+                    <form  action="{{Route('pollhashtag.insert')}}"  method="POST" enctype="multipart/form-data">
+                      @csrf
+                  <div class="card-header">
+                    <div class="mb-3 row">
+                              <label class="col-sm-3 col-form-label">Poll Name</label>
+                                  <div class="col-sm-9">
+
+                              <select class="js-example-basic-single col-sm-12" name="pollhashtagPoll_id" id="pollhashtagPoll_id">
+                                <option value="">Please select </option>
+                                 @foreach($poll as $polls) 
+
+                                 @if($pollhashtagPoll_id == $polls->pollId)
+                                <option value="{{$polls->pollId}}" selected="selected">{{$polls->pollTitle}} </option>
+                                @else
+                                   <option value="{{$polls->pollId}}" {{ old('pollhashtagPoll_id') == $polls->pollId ? 'selected' : '' }}>{{$polls->pollTitle}} </option>
+                                @endif
+                               @endforeach
+                              </select>
+                               <span class="form-text text-danger">
+                              @error('pollhashtagPoll_id') 
+                              {{$message}} 
+                                @enderror
+                            </span>
+                            </div> 
+                          </div>
+                  </div>
+                  <div class="card-body">
+                    @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+                    <table class="table table-bordered" id="dynamicTable">  
+            <tr>
+                <th>Hash Tag</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+              <td><input type="text" name="addmore[0][pollhashtagTitle]" placeholder="Title" value="{{ old('addmore[0][pollhashtagTitle]') }}" class="form-control" />
+                </td>  
+                
+                <td><button type="button" name="add" id="add" class="btn btn-success">+</button></td>  
+            </tr>  
+        </table> 
+                      </div>
+                     <div class="card-footer text-end">
+                      <button class="btn btn-primary" type="submit" data-bs-original-title="" title="">Submit</button>
+                      <input class="btn btn-light" type="reset" value="Cancel" data-bs-original-title="" title="">
+                    </div>
+                        
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+       
+<script type="text/javascript">
+   
+    var i = 0;
+       
+    $("#add").click(function(){
+   
+        ++i;
+   
+         $("#dynamicTable").append('<tr> <td><input type="text" name="addmore['+i+'][pollhashtagTitle]" placeholder="Title" class="form-control" /></td><td><button type="button" class="btn btn-danger remove-tr">-</button></td></tr>');
+    });
+   
+    $(document).on('click', '.remove-tr', function(){  
+         $(this).parents('tr').remove();
+    });  
+   
+</script>
+  
+@endsection
