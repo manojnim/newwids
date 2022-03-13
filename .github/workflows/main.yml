@@ -8,10 +8,10 @@ jobs:
     - name: 🚚 Get latest code
       uses: actions/checkout@v2
 
-    - name: Use php 7.4
+    - name: Use php 7.4.26
       uses: shivammathur/setup-php@master
       with:
-        php-version: '7.4'
+        php-version: '7.4.26'
         
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
